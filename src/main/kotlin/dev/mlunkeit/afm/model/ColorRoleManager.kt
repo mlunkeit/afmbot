@@ -16,16 +16,14 @@ class ColorRoleManager(val member: Member)
 
     fun changeColor(color: Color)
     {
-        val current = currentColorRole()
-
-        println("Removing old color role: ${current?.color}")
-
-        current?.unapply(member)
+        resetColor()
 
         val new = ColorRole(color, member.guild)
-
-        println("Adding new color role: ${new.color}")
-
         new.apply(member)
+    }
+
+    fun resetColor()
+    {
+        currentColorRole()?.unapply(member)
     }
 }
