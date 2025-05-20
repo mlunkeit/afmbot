@@ -8,7 +8,7 @@ class ColorRoleManager(val member: Member)
     fun currentColorRole(): ColorRole?
     {
         val role = member.roles
-            .find { role -> role.name.toIntOrNull(16) != null }
+            .find { role -> role.name.isColor() }
             ?: return null
 
         return ColorRole(role.color ?: return null, member.guild)

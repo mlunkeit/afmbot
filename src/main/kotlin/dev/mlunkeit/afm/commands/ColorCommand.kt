@@ -1,9 +1,10 @@
 package dev.mlunkeit.afm.commands
 
 import dev.mlunkeit.afm.model.ColorRoleManager
+import dev.mlunkeit.afm.model.isColor
+import dev.mlunkeit.afm.model.toColor
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
-import java.awt.Color
 
 object ColorCommand
 {
@@ -13,7 +14,10 @@ object ColorCommand
 
         try
         {
-            val color = Color(hex.toInt(16))
+            if (!hex.isColor())
+                throw IllegalArgumentException("Invalid color: $hex")
+
+            val color = hex.toColor()
 
             val manager = ColorRoleManager(event.member!!)
             manager.changeColor(color)

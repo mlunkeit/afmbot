@@ -17,7 +17,7 @@ class ColorRole(val color: Color, val guild: Guild)
 
     fun apply(member: Member)
     {
-        val role = guild.roles.find { it.name == color.toString() }
+        val role = guild.roles.find { it.name == color.createString() }
 
         if (role != null)
         {

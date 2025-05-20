@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.20"
+
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "dev.mlunkeit"
@@ -16,4 +18,14 @@ dependencies {
 
 kotlin {
     jvmToolchain(23)
+}
+
+tasks.jar {
+    manifest {
+        attributes("Main-Class" to "dev.mlunkeit.afm.AFMBotKt")
+    }
+}
+
+tasks.shadowJar {
+    archiveClassifier.set("all")
 }
