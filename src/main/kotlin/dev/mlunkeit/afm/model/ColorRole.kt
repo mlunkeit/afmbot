@@ -2,17 +2,23 @@ package dev.mlunkeit.afm.model
 
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
-import net.dv8tion.jda.api.requests.restaction.RoleAction
+import net.dv8tion.jda.api.entities.Role
 import java.awt.Color
 
 class ColorRole(val color: Color, val guild: Guild)
 {
-    private fun create(): RoleAction
+    private fun create(callback: (role: Role) -> Unit)
     {
         return guild.createRole()
             .setColor(color)
             .setName(color.createString())
             .setPermissions()
+            .queue { role ->
+                guild.modifyRolePositions()
+                    .selectPosition(role)
+                    .moveBelow(guild.botRole!!)
+                    .queue { callback(role) }
+            }
     }
 
     fun apply(member: Member)
@@ -25,13 +31,7 @@ class ColorRole(val color: Color, val guild: Guild)
         }
         else
         {
-            create().queue { role ->
-                guild.addRoleToMember(member, role).queue()
-                guild.modifyRolePositions()
-                    .selectPosition(role)
-                    .moveTo(guild.selfMember.roles.first().position - 1)
-                    .queue()
-            }
+            create { role -> guild.addRoleToMember(member, role).queue() }
         }
     }
 
