@@ -3,7 +3,6 @@ package dev.mlunkeit.afm.commands
 import dev.mlunkeit.afm.model.ColorRoleManager
 import dev.mlunkeit.afm.model.isColor
 import dev.mlunkeit.afm.model.toColor
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
 object ColorCommand
@@ -12,7 +11,7 @@ object ColorCommand
     {
         if (event.subcommandName == "set")
         {
-            val hex = event.getOption("hex")!!.asString
+            val hex = event.getOption("hex")!!.asString.uppercase()
 
             try
             {
