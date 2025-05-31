@@ -17,9 +17,16 @@ object MentionListener: ListenerAdapter()
         if (event.message.author.isBot)
             return
 
-        val response = LanguageModel.default.prompt(event.message.contentDisplay, event.message.author.effectiveName, event.channel.idLong)
+        try
+        {
+            val response = LanguageModel.default.prompt(event.message.contentDisplay, event.message.author, event.channel)
 
-        if (response != null)
-            event.message.reply(response).queue()
+            if (response != null)
+                event.message.reply(response).queue()
+        }
+        catch(_: RuntimeException)
+        {
+            event.message.reply("Das Sprachmodell hat mit einem Fehler geantwortet :sob:").queue()
+        }
     }
 }
