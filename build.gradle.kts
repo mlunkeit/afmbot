@@ -14,6 +14,8 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/net.dv8tion/JDA
     implementation("net.dv8tion:JDA:5.5.1")
+    // https://mvnrepository.com/artifact/com.google.genai/google-genai
+    implementation("com.google.genai:google-genai:1.1.0")
 }
 
 kotlin {
