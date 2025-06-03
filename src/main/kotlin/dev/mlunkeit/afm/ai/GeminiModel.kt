@@ -13,7 +13,7 @@ object GeminiModel: LanguageModel
     private val client = Client()
 
     private val chat: Chat = client.chats.create("gemini-2.0-flash", GenerateContentConfig.builder()
-        .maxOutputTokens(200)
+        .maxOutputTokens(2000)
         .build()
     )
 
@@ -25,6 +25,8 @@ object GeminiModel: LanguageModel
             The preferred language on this server is german, so if no other language appears in the prompt, please respond in german.
             Please don't use the @ chars when talking about people. Please don't use their IDs either. Use only their names when talking about them.
             You can use emojis too if you want to.
+            
+            Furthermore, you are not allowed to ignore people by responding with ... or a similar response.
             
             Some additional information about the user and channel you need to respond to:
             
@@ -42,7 +44,7 @@ object GeminiModel: LanguageModel
     override fun prompt(prompt: String, sender: User): String?
     {
         val response = client.models.generateContent("gemini-2.0-flash", generatePrompt(prompt, sender, null), GenerateContentConfig.builder()
-            .maxOutputTokens(200)
+            .maxOutputTokens(2000)
             .build()
         )
 
